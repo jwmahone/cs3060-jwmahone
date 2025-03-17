@@ -8,8 +8,11 @@ import pyrosim.pyrosim as pyrosim
 
 
 class SIMULATION:
-    def __init__(self):
-        self.physicsClient = p.connect(p.GUI)
+    def __init__(self, directOrGUI):
+        if directOrGUI == 'GUI':
+            self.physicsClient = p.connect(p.GUI)
+        elif directOrGUI == 'DIRECT':
+            self.physicsClient = p.connect(p.DIRECT)
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
 
         self.world = WORLD()
@@ -27,10 +30,12 @@ class SIMULATION:
             self.robot.Sense(i)
             self.robot.Think()
             self.robot.Act(i)
-            sleep(1/1000)
+            sleep(1/2000)
+
+    def Get_Fitness(self):
+        self.robot.Get_Fitness()
 
     def __del__(self):
-
         p.disconnect()
 
 
