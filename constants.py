@@ -1,6 +1,6 @@
 import numpy
 
-SIMULATION_TIME = 1000
+SIMULATION_TIME = 200
 
 AMPLITUDE = numpy.pi / 4
 FREQUENCY = 8
