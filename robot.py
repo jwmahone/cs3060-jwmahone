@@ -4,14 +4,17 @@ from motor import MOTOR
 import pyrosim.pyrosim as pyrosim
 import numpy
 from pyrosim.neuralNetwork import NEURAL_NETWORK
+import os
 
 
 class ROBOT:
-    def __init__(self):
+    def __init__(self, solutionID):
         self.sensors: dict[str, SENSOR] = {}
         self.motors: dict[str, MOTOR] = {}
+        self.solutionID = solutionID
         self.robotId = p.loadURDF("body.urdf")
-        self.nn = NEURAL_NETWORK("brain.nndf")
+        self.nn = NEURAL_NETWORK(f"brain{solutionID}.nndf")
+        os.system(f"rm brain{solutionID}.nndf")
 
     def Prepare_To_Sense(self):
         for linkName in pyrosim.linkNamesToIndices:
@@ -41,6 +44,7 @@ class ROBOT:
         self.stateOfLinkZero = p.getLinkState(self.robotId,0)
         self.positionOfLinkZero = self.stateOfLinkZero[0]
         self.xCoordinateOfLinkZero = self.positionOfLinkZero[0]
-        fitnessFile = open("fitness.txt", 'w')
+        fitnessFile = open(f"tmp{self.solutionID}.txt", 'w')
         fitnessFile.write(str(self.xCoordinateOfLinkZero))
         fitnessFile.close()
+        os.system(f"mv tmp{self.solutionID}.txt fitness{self.solutionID}.txt")
