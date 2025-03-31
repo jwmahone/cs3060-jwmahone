@@ -21,7 +21,7 @@ class PARALLEL_HILL_CLIMBER:
         for currentGenerations in range(0, c.NUMBER_OF_GENERATIONS):
             self.Evolve_For_One_Generation()
         self.Evaluate(self.children)
-        self.Show_Best()
+        #self.Show_Best()
 
     def Evaluate(self, solutions):
         for key in solutions:
@@ -56,6 +56,7 @@ class PARALLEL_HILL_CLIMBER:
                 self.parents[key] = self.children[key]
 
     def Print(self):
+        print("------------------------------------------------------")
         for key in self.parents:
             print(f"parent:{self.parents[key].fitness} child:{self.children[key].fitness}")
 
